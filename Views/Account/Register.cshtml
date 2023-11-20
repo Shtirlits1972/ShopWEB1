@@ -1,0 +1,64 @@
+﻿@model ShopWEB1.Models.RegisterModel
+
+<form asp-action="Register" asp-controller="Account" asp-anti-forgery="true">
+    <div class="validation" asp-validation-summary="ModelOnly"/>
+    <div style="height: 600px; width: 80%; justify-content: center; align-items: center; display: flex;">
+        <table style="width: 500px;">
+            <thead>
+                <tr>
+                    <th>
+                        <h2>Регистрация</h2>
+                    </th>
+                </tr>
+            </thead>
+
+            <tr>
+                <td>
+                    <div style="width:95%">
+                        <label asp-for="Email" style="width:95%">Введите Email</label><br />
+                        <input type="text" asp-for="Email" style="width:95%" />
+                        <span asp-validation-for="Email" />
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div style="width:95%">
+                        <label asp-for="UsersName" style="width:95%">Введите Ф.И.О.</label><br />
+                        <input type="text" asp-for="UsersName" style="width:95%" />
+                        <span asp-validation-for="UsersName" />
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div style="width:95%">
+                        <label asp-for="Password" style="width:95%">Введите пароль</label><br />
+                        <input asp-for="Password" style="width:95%" />
+                        <span asp-validation-for="Password" />
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div style="width:95%">
+                        <label asp-for="ConfirmPassword" style="width:95%">Повторите пароль</label><br />
+                        <input asp-for="ConfirmPassword" style="width:95%" />
+                        <span asp-validation-for="ConfirmPassword" />
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div style="width:95%">
+                        <input type="submit" style="width:95%" class="btn btn-success" value="Регистрация" />
+                    </div>
+                </td>
+            </tr>
+            </table>
+    </div>
+</form>

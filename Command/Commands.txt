@@ -1,0 +1,5 @@
+﻿Scaffold-DbContext Name=ConnectionStrings:SqlConnString Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force -context DataContext
+
+dotnet ef dbcontext scaffold Name=ConnectionStrings:SqlConnString Microsoft.EntityFrameworkCore.SqlServer --output-dir Models --context DataContext  --force  --data-annotations
+
+//     Ut.GetConnetString()  -  поменять в DataContext
