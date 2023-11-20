@@ -13,8 +13,8 @@ public partial class Category
     [Key]
     public int id { get; set; }
 
-    [StringLength(250)]
-    public string categoryName { get; set; }
+    public string? categoryName { get; set; }
+
 
     public override string ToString()
     {
@@ -22,11 +22,5 @@ public partial class Category
     }
 
     [JsonIgnore]
-    public virtual ICollection<Product>? Products { get; set; } = new List<Product>();
-
-    //[JsonIgnore]
-    //public virtual ICollection<OrderDetail>? OrderDetails { get; set; } = new List<OrderDetail>();
-
-    //[JsonIgnore]
-    //public virtual ICollection<OrderHead>? OrderHeads { get; set; } = new List<OrderHead>();
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

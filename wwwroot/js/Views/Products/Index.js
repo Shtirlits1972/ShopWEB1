@@ -26,7 +26,25 @@
 
         updaterow: function (rowid, rowdata, commit) {
 
-            console.log(JSON.stringify(rowdata));
+            int g = 0;
+
+            var category = {
+                'id': rowdata.categoryId,
+                'categoryName': rowdata.categoryName
+            };
+
+            int h = 0;
+
+            var model = {
+                'id': rowdata.Id,
+                'productName': rowdata.productName,
+                'price': rowdata.price,
+                'categoryId': rowdata.categoryId,
+                'categoryName': rowdata.categoryName,
+                'category': category
+            };
+
+            console.log(JSON.stringify(model));
 
             var settings = {
                 "url": url + rowid,
@@ -35,7 +53,7 @@
                 "headers": {
                     "Content-Type": "application/json"
                 },
-                "data": JSON.stringify(rowdata),
+                "data": JSON.stringify(model),
             };
             var t = 0;
             $.ajax(settings).done(function (data) {
@@ -46,7 +64,6 @@
                 commit(false);
                 console.log('Error');
             });
-          
         },
         datafields: [
             { name: 'id', type: 'int' },
@@ -60,7 +77,6 @@
             { name: 'categoryId', type: 'int' },
             //       { name: 'id', map: 'department&gt;id' },
             { name: "categoryName", map: "category>categoryName", type: 'string' }
-           //   { name: 'categoryNameV', type: 'int', value: 'categoryId', values: { source: dataAdapterCategories.records, value: 'id', name: 'categoryName' } }
         ],
         loadComplete: function () {
             dataAdapterCategories.dataBind();

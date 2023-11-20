@@ -36,7 +36,7 @@
        // debugger;
 
         if (window.IsEdit === true) {
-            $(tabName).jqxGrid('updaterow', Id, model);
+            $(tabName).jqxGrid('updaterow', id, model);
             $(tabName).jqxGrid('updatebounddata', 'cells'); 
         }
         else {

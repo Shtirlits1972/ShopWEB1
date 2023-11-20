@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
 
 namespace ShopWEB1.Models;
+
 
 [Table("Product")]
 public partial class Product
 {
     [Key]
-    public int Id { get; set; } = 0;
+    public int Id { get; set; }
 
-    [StringLength(250)]
-    public string productName { get; set; } = string.Empty;
+    public string ProductName { get; set; } = null!;
 
-    [Column(TypeName = "decimal(18, 2)")]
-    public decimal price { get; set; } = 0;
-    public int categoryId { get; set; }
+    public decimal Price { get; set; }
 
-    //  [ForeignKey("CatID")]
+    public int CategoryId { get; set; }
+
     [InverseProperty("Products")]
-    public virtual Category? category { get; set; } = null!;
+    public virtual Category category { get; set; } = null!;
 
-    //[JsonIgnore]
+
+
+    [JsonIgnore]
     //[InverseProperty("Products")]
-    //public virtual OrderDetail? OrderDetail { get; set; } = null!;
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }

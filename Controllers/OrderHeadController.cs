@@ -55,7 +55,7 @@ namespace ShopWEB1.Controllers
                 return NotFound();
             }
 
-            var orderHead = await _context.OrderHeads.Include(x => x.User).Where(x => x.id == id).FirstOrDefaultAsync();
+            var orderHead = await _context.OrderHeads.Include(x => x.User).Where(x => x.Id == id).FirstOrDefaultAsync();
 
             if (orderHead == null)
             {
@@ -76,14 +76,14 @@ namespace ShopWEB1.Controllers
             _context.OrderHeads.Add(orderHead);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOrderHead", new { id = orderHead.id }, orderHead);
+            return CreatedAtAction("GetOrderHead", new { id = orderHead.Id }, orderHead);
         }
 
         // PUT api/<OrderHeadController>/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOrderHead(int id, OrderHead OrderHead)
         {
-            if (id != OrderHead.id)
+            if (id != OrderHead.Id)
             {
                 return BadRequest();
             }
@@ -111,7 +111,7 @@ namespace ShopWEB1.Controllers
 
         private bool OrderHeadExists(int id)
         {
-            return (_context.OrderHeads?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.OrderHeads?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
         // DELETE api/OrderHead/5
