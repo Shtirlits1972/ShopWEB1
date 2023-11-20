@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopWEB1.Models;
 
@@ -20,7 +14,7 @@ namespace ShopWEB1.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
+    // [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly DataContext _context;
@@ -35,21 +29,21 @@ namespace ShopWEB1.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult<IEnumerable<Category>> GetCategories()
         {
-          if (_context.Categories == null)
-          {
-              return NotFound();
-          }
-            return  _context.Categories.ToList();
+            if (_context.Categories == null)
+            {
+                return NotFound();
+            }
+            return _context.Categories.ToList();
         }
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
-          if (_context.Categories == null)
-          {
-              return NotFound();
-          }
+            if (_context.Categories == null)
+            {
+                return NotFound();
+            }
             var category = await _context.Categories.FindAsync(id);
 
             if (category == null)
@@ -96,10 +90,10 @@ namespace ShopWEB1.Controllers
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-          if (_context.Categories == null)
-          {
-              return Problem("Entity set 'DataContext.Categories'  is null.");
-          }
+            if (_context.Categories == null)
+            {
+                return Problem("Entity set 'DataContext.Categories'  is null.");
+            }
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 

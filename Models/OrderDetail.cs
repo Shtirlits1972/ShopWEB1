@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace ShopWEB1.Models;
 
@@ -19,11 +16,11 @@ public partial class OrderDetail
 
     public decimal Qty { get; set; }
 
-   // [JsonIgnore]
+    // [JsonIgnore]
     [InverseProperty("OrderDetails")]
     public virtual OrderHead Order { get; set; } = null!;
 
-   // [JsonIgnore]
+    // [JsonIgnore]
     [InverseProperty("OrderDetails")]
     public virtual Product Product { get; set; } = null!;
 }

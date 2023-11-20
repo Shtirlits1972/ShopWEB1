@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopWEB1.Models;
 
@@ -97,7 +90,7 @@ namespace ShopWEB1.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         //public async Task<ActionResult<Users>> PostUsers(Users users)
-        public async Task<IActionResult> AddUsers(Users  users)
+        public async Task<IActionResult> AddUsers(Users users)
         {
             if (_context.Users == null)
             {

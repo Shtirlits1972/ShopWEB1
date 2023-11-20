@@ -1,6 +1,4 @@
-﻿using NuGet.Configuration;
-
-namespace ShopWEB1
+﻿namespace ShopWEB1
 {
     public class Ut
     {

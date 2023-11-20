@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ShopWEB1.Models;
 using System.Diagnostics;
 
@@ -25,7 +24,7 @@ namespace ShopWEB1.Controllers
             return View();
         }
 
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult Users()
         {
             return View();

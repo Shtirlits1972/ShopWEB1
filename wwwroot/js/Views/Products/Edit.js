@@ -23,6 +23,8 @@
             Id = $(tabName).jqxGrid('getrowid', selectedrowindex);
         }
 
+        debugger;
+
         var model =
         {
             'id': Id,
@@ -33,10 +35,10 @@
             'category': { 'id': $("#CategoryE").val(), 'categoryName': categoryNameV }
         };
 
-       // debugger;
+        debugger;
 
         if (window.IsEdit === true) {
-            $(tabName).jqxGrid('updaterow', id, model);
+            $(tabName).jqxGrid('updaterow', Id, model);
             $(tabName).jqxGrid('updatebounddata', 'cells'); 
         }
         else {

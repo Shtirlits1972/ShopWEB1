@@ -1,10 +1,8 @@
-﻿using ShopWEB1.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ShopWEB1;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.CookiePolicy;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using Microsoft.IdentityModel.Tokens;
+using ShopWEB1;
+using ShopWEB1.Models;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -69,7 +67,7 @@ app.Use(async (context, next) =>
 
     if (!string.IsNullOrEmpty(token))
     {
-        context.Request.Headers.Add("Authorization", $"Bearer {token}" );
+        context.Request.Headers.Add("Authorization", $"Bearer {token}");
     }
 
     await next.Invoke();

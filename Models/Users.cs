@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 
 //  без этой херни не работает JsonIgnore
 // не использовать using Newtonsoft.Json  !!!!!!!!!!!
-using System.Text.Json.Serialization;  
+using System.Text.Json.Serialization;
 
 namespace ShopWEB1.Models;
 

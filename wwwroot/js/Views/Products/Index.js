@@ -26,25 +26,18 @@
 
         updaterow: function (rowid, rowdata, commit) {
 
-            int g = 0;
+            var  h = 0;
 
-            var category = {
-                'id': rowdata.categoryId,
-                'categoryName': rowdata.categoryName
-            };
-
-            int h = 0;
-
-            var model = {
-                'id': rowdata.Id,
+            var modelProduct = {
+                'id': rowid,
                 'productName': rowdata.productName,
                 'price': rowdata.price,
                 'categoryId': rowdata.categoryId,
                 'categoryName': rowdata.categoryName,
-                'category': category
+                'category': { 'id': rowdata.categoryId, 'categoryName': rowdata.categoryName }
             };
 
-            console.log(JSON.stringify(model));
+            console.log(JSON.stringify(modelProduct));
 
             var settings = {
                 "url": url + rowid,
@@ -53,7 +46,7 @@
                 "headers": {
                     "Content-Type": "application/json"
                 },
-                "data": JSON.stringify(model),
+                "data": JSON.stringify(modelProduct),
             };
             var t = 0;
             $.ajax(settings).done(function (data) {

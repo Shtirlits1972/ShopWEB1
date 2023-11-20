@@ -38,7 +38,7 @@ namespace ShopWEB1.Controllers
                 //  .Include(x => x.user)
                 return _context.OrderHeads.Include(x => x.User).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return NotFound(ex.Message);
