@@ -21,6 +21,25 @@
                 </tr>
 
                 <tr>
+                    <td align="center" style="padding:3px; margin: 5px;" colspan="2">
+
+                        <div>Фото</div>
+                        <div><img src="~/images/NoFoto.jpg" alt="нет фото" id="ImageView" style="height: 100px; width: 200px;" /></div>
+                        <br />
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="file" style="width: 220px;" id="FotoInput" onchange="readURL(this)" />
+                                    <input type="hidden" id="ImgIsChange" name="ImgIsChange" value="false" />
+                                </td>
+                                <td><button type="button" style="width: 25px; height: 20px; background-color: red" onclick="clearFoto()">X</button></td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+
+                <tr>
                     <td align="right"></td>
                     <td style="padding-top: 10px;" align="right">
 

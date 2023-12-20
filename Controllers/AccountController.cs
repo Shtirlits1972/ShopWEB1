@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using ShopWEB1.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Policy;
 
 namespace ShopWEB1.Controllers
 {
@@ -92,7 +93,7 @@ namespace ShopWEB1.Controllers
                 token = LoginOut(login);
 
                 HttpContext.Response.Cookies.Append(auth.CookiesName, token, new CookieOptions { MaxAge = TimeSpan.FromDays(auth.TokenLifeTime), HttpOnly = true });
-                return Ok(login);
+                return Ok(token);
             }
             else
             {
@@ -114,7 +115,7 @@ namespace ShopWEB1.Controllers
             else
             {
                 HttpContext.Response.Cookies.Append(auth.CookiesName, token, new CookieOptions { MaxAge = TimeSpan.FromDays(auth.TokenLifeTime), HttpOnly = true });
-                return Ok(model);
+                return Ok(token);
             }
         }
 
@@ -134,7 +135,8 @@ namespace ShopWEB1.Controllers
                     List<Claim> claims = new List<Claim> {
                         new Claim(ClaimTypes.Name, user.UsersName),
                         new Claim(ClaimTypes.Role, user.Role),
-                        new Claim(ClaimTypes.Email, user.Email)
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim("Id", user.id.ToString())
 
                     };
                     // создаем JWT-токен

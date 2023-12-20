@@ -2,9 +2,8 @@
 
     var IsEdit = false;
     var tabName = "#tabOrderHead";
-
     var url = "/api/OrderHead/";
-
+    var OrderHeadId = 0;
     //----------------------------------------------------------------------------------------------------------------
     var sourceUsers =
     {
@@ -28,6 +27,11 @@
 
         updaterow: function (rowid, rowdata, commit) {
 
+            //  без этой хрени показует дату на день меньше :-(
+            rowdata.orderData = new Date(Date.UTC(rowdata.orderData.getFullYear(), rowdata.orderData.getMonth(), rowdata.orderData.getDate(), rowdata.orderData.getHours(), rowdata.orderData.getMinutes()));
+            console.log(rowdata.orderData);
+            debugger;
+
             var settings = {
                 "url": url + rowid,
                 "method": "PUT",
@@ -37,13 +41,17 @@
                 },
                 "data": JSON.stringify(rowdata),
             };
-
+            debugger;
             $.ajax(settings).done(function (data) {
+                debugger;
                 console.log(data);
                 commit(true);
+                $(tabName).jqxGrid('updatebounddata', 'cells'); // без этого не обновляется дата заказа????
+                
             }).fail(function () {
                 commit(false);
                 console.log('Error');
+                debugger;
             });
 
         },
@@ -55,7 +63,8 @@
 
             { name: 'userId', type: 'int' },
 
-            { name: "usersName", map: "user>usersName", type: 'string' }
+            { name: "usersName", map: "user>usersName", type: 'string' },
+            {name : "user", type: "object"}
 
         ],
         id: 'id',
@@ -63,7 +72,6 @@
     };
 
     var dataAdapter = new $.jqx.dataAdapter(source);
-
 
     $(tabName).jqxGrid({
         autoloadstate: true,
@@ -114,17 +122,18 @@
                 if (selectedrowindex >= 0) {
 
                     var id = $(tabName).jqxGrid('getrowid', selectedrowindex);
-                    var offset = $(tabName).offset();
+                    window.location.href = '/OrderDetailView?OrderId=' + id;
+                    //var offset = $(tabName).offset();
+                    //window.OrderHeadId = $(tabName).jqxGrid('getrowid', selectedrowindex);
 
-                    $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
-                    $("#popupWindow").jqxWindow('open');
+                    //console.log(window.OrderHeadId);
+                    //debugger;
 
-                    selectedrowindex = $(tabName).jqxGrid('getselectedrowindex');
-                    var dataRecord = $(tabName).jqxGrid('getrowdata', selectedrowindex);
+                    //$("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+                    //$("#popupWindow").jqxWindow('open');
 
-                    //console.log(dataRecord.categoryName);
-
-                    //$("#CategoryNameE").val(dataRecord.categoryName);
+                    //selectedrowindex = $(tabName).jqxGrid('getselectedrowindex');
+                    //var dataRecord = $(tabName).jqxGrid('getrowdata', selectedrowindex);
 
                 }
                 else {
@@ -133,10 +142,11 @@
             });
             // create new row.
             $("#btnAdd").on('click', function () {
-                window.IsEdit = false;
-                var offset = $(tabName).offset();
-                $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
-                $("#popupWindow").jqxWindow('open');
+                window.location.href = '/OrderDetailView?OrderId=0';
+                //window.IsEdit = false;
+                //var offset = $(tabName).offset();
+                //$("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+                //$("#popupWindow").jqxWindow('open');
             });
             $("#btnDel").on('click', function () {
                 var selectedrowindex = $(tabName).jqxGrid('getselectedrowindex');
@@ -174,13 +184,13 @@
             {
                 text: 'Дата', datafield: 'orderData', align: 'center', cellsformat: 'dd.MM.yyyy', filtertype: 'date',
                 columntype: 'datetimeinput',
-
+                culture: 'ru-RU',
+                cellsalign: 'center',
                 createeditor: function (row, value, editor) {
-                    editor.jqxDateTimeInput({ firstDayOfWeek: 1, culture: 'ru-RU', formatString: 'dd.MM.yyyy', showTimeButton: false });
+                    editor.jqxDateTimeInput({ firstDayOfWeek: 1, culture: 'ru-RU',  formatString: 'dd.MM.yyyy', showTimeButton: false });
                 },
-
                 createfilterwidget: function (column, columnElement, widget) {
-                    widget.jqxDateTimeInput({ firstDayOfWeek: 1, culture: 'ru-RU', formatString: 'dd.MM.yyyy', showTimeButton: false });
+                    widget.jqxDateTimeInput({ firstDayOfWeek: 1, culture: 'ru-RU',  formatString: 'dd.MM.yyyy', showTimeButton: false });
                 },
             },
 

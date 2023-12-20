@@ -19,10 +19,8 @@ public partial class OrderHead
 
     [JsonIgnore]
     //[InverseProperty("OrderHeads")]
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-
-
+    public virtual ICollection<OrderDetail>? OrderDetails { get; set; } = new List<OrderDetail>();
 
     [InverseProperty("OrderHeads")]
-    public virtual Users User { get; set; } = null!;
+    public virtual Users? User { get; set; } = null!;
 }

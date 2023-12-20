@@ -20,7 +20,7 @@ public partial class Product
     [InverseProperty("Products")]
     public virtual Category category { get; set; } = null!;
 
-
+    public string Foto { get; set; } = null!;
 
     [JsonIgnore]
     //[InverseProperty("Products")]

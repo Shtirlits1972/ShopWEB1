@@ -1,0 +1,47 @@
+﻿<div id='jqxWidget'>
+    <div id="EditImage" name="EditImage">
+
+        <div>Фото</div>
+        <div style="overflow: hidden;">
+            <table style="width: 95%;">
+
+                <tr>
+                    <td style="padding-top: 10px;" colspan="2" align="center">
+
+                        <table>
+
+                            <tr>
+                                <td colspan="2">
+                                    <img src="~/images/NoFoto.jpg" alt="нет фото" id="ImageView2" style="height: 100px; width: 200px;" />
+                                    <input type="hidden" id="ImgIsChange2" name="ImgIsChange2" value="false" />
+                                    <input type="hidden" id="HideRowId" name="HideRowId" value=0 />
+                                    <br />
+                                    <br />
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <input type="file" style="width: 220px;" id="FotoInput2" onchange="readURL2(this)" />
+                                            </td>
+                                            <td><button type="button" style="width: 25px; height: 20px; background-color: red" onclick="clearFoto2()">X</button></td>
+                                        </tr>
+                                    </table>
+                                    <br />
+                                </td>
+                            </tr>
+
+                            <tr style="width: 100%;">
+                                <td style="align-content:center; width: 45%; padding-right: 10px;">
+                                    <input style="width: 100px; " type="button" id="SaveImage" value="Сохранить" />
+                                </td>
+                                <td style="align-content:center; width: 45%;  padding-left: 10px;">
+                                    <input style="width: 100px;" id="CancelImage" type="button" value="Отмена" />
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

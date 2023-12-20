@@ -4,15 +4,12 @@ using Microsoft.IdentityModel.Tokens;
 using ShopWEB1;
 using ShopWEB1.Models;
 using System.Globalization;
+using ShopWEB1.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>();
 
 AuthOptions auth = Ut.GetAuthOptions();
-
-//builder.Services.AddAuthentication();
-
-
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
@@ -123,6 +120,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+};
 
 app.UseHttpsRedirection();
 //app.UseStaticFiles();

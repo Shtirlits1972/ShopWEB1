@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopWEB1.Models;
+using System.Web.Providers.Entities;
 
 namespace ShopWEB1.Controllers
 {
@@ -55,7 +56,32 @@ namespace ShopWEB1.Controllers
                 return NotFound();
             }
 
-            var orderHead = await _context.OrderHeads.Include(x => x.User).Where(x => x.Id == id).FirstOrDefaultAsync();
+            OrderHead orderHead = new OrderHead {Id = 0, OrderNumber = "00000", OrderData = DateTime.Today, User = null,  UserId = 0 };
+            int UserId = 0;
+            
+
+            if (id == 0)
+            {
+                Users OrderUser = null;
+                if (User.Identity.IsAuthenticated)
+                {
+                     UserId = int.Parse(User.Claims.ToList()[3].Value);
+                    OrderUser = _context.Users.Where(x => x.id == UserId).FirstOrDefault();
+                }
+                else
+                {
+                    Console.WriteLine("Пользователь не авторизован!");
+                }
+
+                DateTime dateTimeToday = DateTime.Today;
+                string OrderNumber = dateTimeToday.ToShortDateString() + "/" + (_context.OrderHeads.Where(x => x.OrderData == dateTimeToday).Count() + 1).ToString();
+
+                orderHead = new OrderHead { Id = 0, OrderNumber = OrderNumber.ToString(), UserId = UserId, User = OrderUser, OrderData = dateTimeToday };
+            }
+            else if (id > 0)
+            {
+                orderHead = await _context.OrderHeads.Include(x => x.User).Where(x => x.Id == id).FirstOrDefaultAsync();
+            }
 
             if (orderHead == null)
             {
@@ -65,23 +91,37 @@ namespace ShopWEB1.Controllers
             return orderHead;
         }
 
+
+        //   Добавляем новую шапку документа
         // POST api/<OrderHeadController>
         [HttpPost]
-        public async Task<ActionResult<OrderHead>> PostOrderHead(OrderHead orderHead)
+        public ActionResult<OrderHead> PostOrderHead(OrderHead orderHead)
         {
+            orderHead.User = null; //  без этого не работает   :-(
+
+            if(orderHead.UserId == 0)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    orderHead.UserId = int.Parse(User.Claims.ToList()[3].Value);
+                }
+            }
+
             if (_context.OrderHeads == null)
             {
                 return Problem("Entity set 'DataContext.orderHeads'  is null.");
             }
-            _context.OrderHeads.Add(orderHead);
-            await _context.SaveChangesAsync();
+             _context.OrderHeads.Add(orderHead);
+             _context.SaveChanges();
 
             return CreatedAtAction("GetOrderHead", new { id = orderHead.Id }, orderHead);
         }
 
+
+        //  Редактируем
         // PUT api/<OrderHeadController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrderHead(int id, OrderHead OrderHead)
+        public IActionResult PutOrderHead(int id, OrderHead OrderHead)
         {
             if (id != OrderHead.Id)
             {
@@ -92,9 +132,10 @@ namespace ShopWEB1.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
+                return CreatedAtAction("GetOrderHead", new { id = OrderHead.Id }, OrderHead);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!OrderHeadExists(id))
                 {
@@ -102,11 +143,9 @@ namespace ShopWEB1.Controllers
                 }
                 else
                 {
-                    throw;
+                    return StatusCode(500, ex);
                 }
             }
-
-            return NoContent();
         }
 
         private bool OrderHeadExists(int id)
@@ -126,6 +165,13 @@ namespace ShopWEB1.Controllers
             if (orderHead == null)
             {
                 return NotFound();
+            }
+
+            List<OrderDetail> listDetail = _context.OrderDetails.Where(e => e.OrderId == orderHead.Id).ToList();
+
+            for(int i = 0; i<listDetail.Count;i++)
+            {
+                _context.OrderDetails.Remove(listDetail[i]);
             }
 
             _context.OrderHeads.Remove(orderHead);

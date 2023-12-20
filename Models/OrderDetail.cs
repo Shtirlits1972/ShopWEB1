@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.OpenApi;
+using Microsoft.AspNetCore.Http.HttpResults;
+using System.Text.Json.Serialization;
 
 namespace ShopWEB1.Models;
 
@@ -16,11 +19,13 @@ public partial class OrderDetail
 
     public decimal Qty { get; set; }
 
-    // [JsonIgnore]
+    [JsonIgnore]
     [InverseProperty("OrderDetails")]
-    public virtual OrderHead Order { get; set; } = null!;
+    public virtual OrderHead? Order { get; set; } = null!;
 
-    // [JsonIgnore]
+    //[JsonIgnore]
     [InverseProperty("OrderDetails")]
-    public virtual Product Product { get; set; } = null!;
+    public virtual Product? Product { get; set; } = null!;
 }
+
+

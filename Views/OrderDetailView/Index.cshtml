@@ -1,0 +1,58 @@
+﻿@model OrderHead 
+
+<html>
+<head>
+    <title>Заказ</title>
+
+    <script type="text/javascript" src="~/js/Views/OrderDetail/Index.js"></script>
+    <script type="text/javascript" src="~/js/Views/OrderDetail/Edit.js"></script>
+
+</head>
+<body>
+    <input type="hidden" id="OrderId" value=@Model.Id  />
+    <input type="hidden" id="OrderData" value=@Model.OrderData.!ToString("dd.MM.YYYY") />
+    <input type="hidden" id="UserId" value=@Model.UserId />
+    <input type="hidden" id="OrderNumber" value=@Model.OrderNumber />
+
+    <br />
+    <h2>Заказ</h2>
+    <br />
+
+    <table>
+        <tr>
+            <th>
+                № Заказа
+            </th>
+            <th>
+                Дата
+            </th>
+        </tr>
+
+        <tr>
+            <td align="left"><input style="padding:3px; margin: 5px;" placeholder="№ Заказа" id="OrderNumberE" value=@Model.OrderNumber  /></td>
+            <td align="left"><input style="padding:3px; margin: 5px;" placeholder="Дата" id="OrderDataE" value=@Model.OrderData.!ToString("dd.MM.YYYY") /></td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <div id="tabOrderDetail"></div>
+            </td>
+        </tr>
+
+        <tr>
+
+            <td align="right"></td>
+            <td style="padding-top: 10px;" align="right">
+
+                <input style="margin-right: 5px;" type="button" id="Save" value="Сохранить" />
+                <input id="Cancel" type="button" value="Отмена" />
+
+            </td>
+
+        </tr>
+    </table>
+
+    @Html.Partial("Edit")
+
+</body>
+</html>

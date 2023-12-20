@@ -34,6 +34,7 @@
                 'price': rowdata.price,
                 'categoryId': rowdata.categoryId,
                 'categoryName': rowdata.categoryName,
+                'foto': rowdata.foto,
                 'category': { 'id': rowdata.categoryId, 'categoryName': rowdata.categoryName }
             };
 
@@ -69,7 +70,8 @@
             },
             { name: 'categoryId', type: 'int' },
             //       { name: 'id', map: 'department&gt;id' },
-            { name: "categoryName", map: "category>categoryName", type: 'string' }
+            { name: "categoryName", map: "category>categoryName", type: 'string' },
+            { name: 'foto', type: 'string' }
         ],
         loadComplete: function () {
             dataAdapterCategories.dataBind();
@@ -82,6 +84,21 @@
     };
 
     var dataAdapter = new $.jqx.dataAdapter(source);
+
+
+    //  на случай если захотим показывать фото
+    var imageRender = function (row, columnfield, value, defaulthtml, columnproperties) {
+        var RowId = $(tabName).jqxGrid('getrowid', row);
+        if (value.trim() !== '' && value !== null && value !== undefined && value.length > 3 && value !== 'X') {
+
+            console.log('RowId =' + RowId + '+ value= ' + value);
+            return '<img src="images/product/' + RowId + '/' + value + '" onclick="editImage(' + RowId + ', &quot;' + value + '&quot;)">';
+        }
+        else {
+            console.log('RowId =' + RowId + '+ value.length= ' + value.length);
+            return '<div style="width: 60px; height: 28px;" onclick="editImage(' + RowId + ', &quot;' + value + '&quot;)"> </div>';
+        }
+    };
 
     $(tabName).jqxGrid({
 
@@ -135,7 +152,7 @@
 
                     var id = $(tabName).jqxGrid('getrowid', selectedrowindex);
                     var offset = $(tabName).offset();
-
+                //    debugger;
                     $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
                     $("#popupWindow").jqxWindow('open');
 
@@ -147,6 +164,15 @@
                     $("#ProductNameE").val(dataRecord.productName);
                     $("#PriceE").val(dataRecord.price);
                     $("#CategoryE").val(dataRecord.categoryId);
+
+                    //-------------------------------------------------------------------------------------------
+                    if (dataRecord.foto !== '' && dataRecord.foto !== 'X') {
+                        $('#ImageView').attr('src', "/images/product/" + id + "/" + dataRecord.foto);
+                    }
+                    else {
+                        $('#ImageView').attr('src', "/images/NoFoto.jpg");
+                    }
+                    //-------------------------------------------------------------------------------------------
 
                 }
                 else {
@@ -204,7 +230,27 @@
                 createeditor: function (row, value, editor) {
                     editor.jqxComboBox({ source: dataAdapterCategories.records, displayMember: 'categoryName', valueMember: 'id' });
                 }
-            }
+            },
+
+            { text: 'Фото', datafield: 'foto', align: 'center', /*columntype: 'custom',*/ cellsrenderer: imageRender, width: 60, editable: false }
         ]
     });
 });
+
+
+function editImage(RowId, value = "") {
+
+    var offset = $("#tabProducts").offset();
+    $("#EditImage").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+    $("#EditImage").jqxWindow('open');
+
+    $('#HideRowId').attr('value', RowId);
+
+    if (value !== '' && value !== 'X') {
+        $('#ImageView2').attr('src', "images/product/" + RowId + "/" + value);
+    }
+    else {
+        $('#ImageView2').attr('src', "/images/NoFoto.jpg");
+    }
+
+}
