@@ -3,7 +3,6 @@ using Microsoft.IdentityModel.Tokens;
 using ShopWEB1.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Policy;
 
 namespace ShopWEB1.Controllers
 {

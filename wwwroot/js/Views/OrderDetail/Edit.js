@@ -110,7 +110,7 @@ $(document).ready(function () {
                 //  Добавляел новый заказ
                 debugger;
             } else {
-                debugger;
+                //debugger;
                 SaveDetail(false, 0);
             }
 
@@ -184,7 +184,7 @@ function SaveDetail(isNewOrder, orderId) {
     };
 
     console.log(model);
-    debugger;
+    //   debugger;
 
     if (window.IsEdit === true) {
         $(tabNameDetail).jqxGrid('updaterow', Id, model);
@@ -200,7 +200,7 @@ function SaveDetail(isNewOrder, orderId) {
             "data": JSON.stringify(model)
         };
 
-        debugger;
+        //  debugger;
 
         try {
             $.ajax(settings).done(function (data) {

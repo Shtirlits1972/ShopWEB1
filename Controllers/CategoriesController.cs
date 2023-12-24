@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopWEB1.Models;
 
 namespace ShopWEB1.Controllers
 {
+    [Authorize]
     public class CategoriesViewController : Controller
     {
         public IActionResult Index()
@@ -14,7 +16,7 @@ namespace ShopWEB1.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly DataContext _context;

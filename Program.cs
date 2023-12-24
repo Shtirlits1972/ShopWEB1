@@ -4,7 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using ShopWEB1;
 using ShopWEB1.Models;
 using System.Globalization;
-using ShopWEB1.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>();
@@ -141,9 +140,9 @@ CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 //app.UseRouting();
 
 // подключаем CORS
-app.UseCors(builder => builder.AllowAnyOrigin());
+//app.UseCors(builder => builder.AllowAnyOrigin());
 app.UseCors(builder => builder
-                             .AllowCredentials()
+                             //.AllowCredentials()
                              .AllowAnyMethod()
                              .AllowAnyHeader()
                              .AllowAnyOrigin());

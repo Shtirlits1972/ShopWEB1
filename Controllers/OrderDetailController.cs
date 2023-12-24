@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ShopWEB1.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Web.Providers.Entities;
+using ShopWEB1.Models;
 
 namespace ShopWEB1.Controllers
 {
+    [Authorize]
     public class OrderDetailViewController : Controller
     {
         private readonly DataContext _context;
@@ -24,13 +24,13 @@ namespace ShopWEB1.Controllers
 
             int UserId = 0;
 
-             //   создаём новый заказ
+            //   создаём новый заказ
             if (OrderId == 0)
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                     UserId = int.Parse( User.Claims.ToList()[3].Value);
-               //     users = _context.Users.Where(x => x.id == UserId).FirstOrDefault();
+                    UserId = int.Parse(User.Claims.ToList()[3].Value);
+                    //     users = _context.Users.Where(x => x.id == UserId).FirstOrDefault();
                     int y = 0;
                 }
                 else
@@ -44,7 +44,7 @@ namespace ShopWEB1.Controllers
 
             OrderHead orderHead = new OrderHead { Id = 0, OrderNumber = OrderNumber.ToString(), UserId = UserId, User = null, OrderData = dateTimeToday };
 
-            if(OrderId > 0)
+            if (OrderId > 0)
             {
                 orderHead = _context.OrderHeads.Include(x => x.User).Where(x => x.Id == OrderId).FirstOrDefault();
             }
@@ -53,7 +53,7 @@ namespace ShopWEB1.Controllers
         }
     }
 
-
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderDetailController : ControllerBase
@@ -109,7 +109,7 @@ namespace ShopWEB1.Controllers
 
             try
             {
-                 _context.SaveChanges();
+                _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -149,14 +149,14 @@ namespace ShopWEB1.Controllers
             {
                 return NotFound();
             }
-            var OrderDetail =  _context.OrderDetails.Find(id);
+            var OrderDetail = _context.OrderDetails.Find(id);
             if (OrderDetail == null)
             {
                 return NotFound();
             }
 
             _context.OrderDetails.Remove(OrderDetail);
-             _context.SaveChanges();
+            _context.SaveChanges();
 
             return NoContent();
         }

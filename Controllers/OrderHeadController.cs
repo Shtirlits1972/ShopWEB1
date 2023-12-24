@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopWEB1.Models;
-using System.Web.Providers.Entities;
 
 namespace ShopWEB1.Controllers
 {
+    [Authorize]
     public class OrderHeadViewController : Controller
     {
         public IActionResult Index()
@@ -15,7 +16,7 @@ namespace ShopWEB1.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize]
+    [Authorize]
     public class OrderHeadController : ControllerBase
     {
         private readonly DataContext _context;
@@ -36,8 +37,16 @@ namespace ShopWEB1.Controllers
 
             try
             {
-                //  .Include(x => x.user)
-                return _context.OrderHeads.Include(x => x.User).ToList();
+                if (User.IsInRole("admin"))
+                {
+                    return _context.OrderHeads.Include(x => x.User).ToList();
+                }
+               else
+                {
+                    int UserId = int.Parse(User.Claims.ToList()[3].Value);
+                    return _context.OrderHeads.Where(x => x.UserId == UserId).Include(x => x.User).ToList();
+                }
+                    
             }
             catch (Exception ex)
             {
@@ -56,16 +65,16 @@ namespace ShopWEB1.Controllers
                 return NotFound();
             }
 
-            OrderHead orderHead = new OrderHead {Id = 0, OrderNumber = "00000", OrderData = DateTime.Today, User = null,  UserId = 0 };
+            OrderHead orderHead = new OrderHead { Id = 0, OrderNumber = "00000", OrderData = DateTime.Today, User = null, UserId = 0 };
             int UserId = 0;
-            
+
 
             if (id == 0)
             {
                 Users OrderUser = null;
                 if (User.Identity.IsAuthenticated)
                 {
-                     UserId = int.Parse(User.Claims.ToList()[3].Value);
+                    UserId = int.Parse(User.Claims.ToList()[3].Value);
                     OrderUser = _context.Users.Where(x => x.id == UserId).FirstOrDefault();
                 }
                 else
@@ -99,7 +108,7 @@ namespace ShopWEB1.Controllers
         {
             orderHead.User = null; //  без этого не работает   :-(
 
-            if(orderHead.UserId == 0)
+            if (orderHead.UserId == 0)
             {
                 if (User.Identity.IsAuthenticated)
                 {
@@ -111,8 +120,8 @@ namespace ShopWEB1.Controllers
             {
                 return Problem("Entity set 'DataContext.orderHeads'  is null.");
             }
-             _context.OrderHeads.Add(orderHead);
-             _context.SaveChanges();
+            _context.OrderHeads.Add(orderHead);
+            _context.SaveChanges();
 
             return CreatedAtAction("GetOrderHead", new { id = orderHead.Id }, orderHead);
         }
@@ -169,7 +178,7 @@ namespace ShopWEB1.Controllers
 
             List<OrderDetail> listDetail = _context.OrderDetails.Where(e => e.OrderId == orderHead.Id).ToList();
 
-            for(int i = 0; i<listDetail.Count;i++)
+            for (int i = 0; i < listDetail.Count; i++)
             {
                 _context.OrderDetails.Remove(listDetail[i]);
             }
