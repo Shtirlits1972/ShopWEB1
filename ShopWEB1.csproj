@@ -37,4 +37,16 @@
     <Folder Include="wwwroot\js\Views\Users\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="C:\Users\shtir\.nuget\packages\bootstrap\5.3.1\contentFiles\any\any\wwwroot\js\bootstrap.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\js\jquery-1.11.1.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\js\JQWidgets.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

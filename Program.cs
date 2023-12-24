@@ -141,9 +141,9 @@ CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 //app.UseRouting();
 
 // подключаем CORS
-//app.UseCors(builder => builder.AllowAnyOrigin());
+app.UseCors(builder => builder.AllowAnyOrigin());
 app.UseCors(builder => builder
-                             //.AllowCredentials()
+                             .AllowCredentials()
                              .AllowAnyMethod()
                              .AllowAnyHeader()
                              .AllowAnyOrigin());
